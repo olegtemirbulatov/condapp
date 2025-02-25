@@ -41,6 +41,7 @@ private:
     QPushButton *changeThemeMode;
     QMenu *temperatureMenu;
     QMenu *atmPressureMenu;
+    QMenu *airflowDirectionMenu;
     QLabel *temperatureValueLabel;
     QLabel *temperatureUnitLabel;
     QLabel *temperatureLabel;
@@ -91,6 +92,7 @@ private slots:
     void onPowerButtonClicked(bool checked);
     void onTemperActionTriggered();
     void onAtmPresTriggered();
+    void onAirflowDirectionTriggered();
     void onChangeThemeModeClicked(bool checked);
     void onPlusMinusButtonClicked();
 

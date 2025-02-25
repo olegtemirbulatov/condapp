@@ -50,40 +50,25 @@ UserWindow::UserWindow()
     scene = new QGraphicsScene(this);
     setScene(scene);
 
-    // Definitions of widgets
-    systemLabel = new QLabel("Кондиционер");
-    changeThemeMode = new QPushButton();
-    changeThemeMode->setCheckable(true);
-
+    // Definitions of saved values
     defaultValue = new QString("--");
     temperatureUnit = new QString();
     atmPressureUnit = new QString();
 
+    // Definitions of buttons
+    systemLabel = new QLabel("Кондиционер");
+    changeThemeMode = new QPushButton();
+    changeThemeMode->setCheckable(true);
     temperatureButton = new QPushButton();
     humidityButton = new QPushButton();
     atmPressureButton = new QPushButton();
-
-    temperatureMenu = new QMenu(temperatureButton);
-    atmPressureMenu = new QMenu(atmPressureButton);
-
-    QAction *celsius = new QAction("°C", temperatureMenu);
-    QAction *fahrenheit = new QAction("°F", temperatureMenu);
-    QAction *kelvin = new QAction("K", temperatureMenu);
-    QAction *mmHg = new QAction("мм.рт.ст.", atmPressureMenu);
-    QAction *pascal = new QAction("Па", atmPressureMenu);
-
-    temperatureMenu->addAction(celsius);
-    temperatureMenu->addAction(fahrenheit);
-    temperatureMenu->addAction(kelvin);
-    atmPressureMenu->addAction(mmHg);
-    atmPressureMenu->addAction(pascal);
-
-    temperatureButton->setMenu(temperatureMenu);
-    atmPressureButton->setMenu(atmPressureMenu);
-
+    powerButton = new QPushButton();
+    powerButton->setCheckable(true);
+    airDirectionButton = new QPushButton();
     plusButton = new QPushButton("+");
     minusButton = new QPushButton("-");
 
+    // Definitions of labels
     temperatureValueLabel = new QLabel();
     temperatureValueLabel->setMinimumWidth(160);
     temperatureValueLabel->setMaximumWidth(190);
@@ -91,11 +76,35 @@ UserWindow::UserWindow()
     temperatureUnitLabel = new QLabel(*temperatureUnit);
     temperatureLabel = new QLabel("Температура");
 
-    powerButton = new QPushButton();
-    powerButton->setCheckable(true);
-    airDirectionButton = new QPushButton();
+    // Definitions of menus
+    temperatureMenu = new QMenu(temperatureButton);
+    atmPressureMenu = new QMenu(atmPressureButton);
+    airflowDirectionMenu = new QMenu(airDirectionButton);
 
-    // adding styles, icons and labels
+    // Adding actions for menus
+    QAction *celsius = new QAction("°C", temperatureMenu);
+    QAction *fahrenheit = new QAction("°F", temperatureMenu);
+    QAction *kelvin = new QAction("K", temperatureMenu);
+    QAction *mmHg = new QAction("мм.рт.ст.", atmPressureMenu);
+    QAction *pascal = new QAction("Па", atmPressureMenu);
+    QAction *_0_30_degrees = new QAction("0°-30°", airflowDirectionMenu);
+    QAction *_30_60_degrees = new QAction("30°-60°", airflowDirectionMenu);
+    QAction *_60_90_degrees = new QAction("60°-90°", airflowDirectionMenu);
+
+    temperatureMenu->addAction(celsius);
+    temperatureMenu->addAction(fahrenheit);
+    temperatureMenu->addAction(kelvin);
+    atmPressureMenu->addAction(mmHg);
+    atmPressureMenu->addAction(pascal);
+    airflowDirectionMenu->addAction(_0_30_degrees);
+    airflowDirectionMenu->addAction(_30_60_degrees);
+    airflowDirectionMenu->addAction(_60_90_degrees);
+
+    temperatureButton->setMenu(temperatureMenu);
+    atmPressureButton->setMenu(atmPressureMenu);
+    airDirectionButton->setMenu(airflowDirectionMenu);
+
+    // setting styles and icons
     systemLabel->setObjectName("mainLabel");
     changeThemeMode->setObjectName("colorThemeButton");
     temperatureButton->setObjectName("longButton");
@@ -125,18 +134,21 @@ UserWindow::UserWindow()
     powerButton->setIconSize(QSize(32, 32));
     airDirectionButton->setIconSize(QSize(32, 32));
 
-    // connections
+    // setting connections of buttons and actions
     connect(powerButton, &QPushButton::clicked, this, &UserWindow::onPowerButtonClicked);
     connect(changeThemeMode, &QPushButton::clicked, this, &UserWindow::onChangeThemeModeClicked);
+    connect(plusButton, &QPushButton::clicked, this, &UserWindow::onPlusMinusButtonClicked);
+    connect(minusButton, &QPushButton::clicked, this, &UserWindow::onPlusMinusButtonClicked);
     connect(celsius, &QAction::triggered, this, &UserWindow::onTemperActionTriggered);
     connect(fahrenheit, &QAction::triggered, this, &UserWindow::onTemperActionTriggered);
     connect(kelvin, &QAction::triggered, this, &UserWindow::onTemperActionTriggered);
     connect(mmHg, &QAction::triggered, this, &UserWindow::onAtmPresTriggered);
     connect(pascal, &QAction::triggered, this, &UserWindow::onAtmPresTriggered);
-    connect(plusButton, &QPushButton::clicked, this, &UserWindow::onPlusMinusButtonClicked);
-    connect(minusButton, &QPushButton::clicked, this, &UserWindow::onPlusMinusButtonClicked);
+    connect(_0_30_degrees, &QAction::triggered, this, &UserWindow::onAirflowDirectionTriggered);
+    connect(_30_60_degrees, &QAction::triggered, this, &UserWindow::onAirflowDirectionTriggered);
+    connect(_60_90_degrees, &QAction::triggered, this, &UserWindow::onAirflowDirectionTriggered);
 
-    // adding widgets to scene
+    // adding widgets to scene using proxy widgets
     proxySystemLabel = scene->addWidget(systemLabel);
     proxyChangeThemeMode = scene->addWidget(changeThemeMode);
     proxyTemperatureButton = scene->addWidget(temperatureButton);
@@ -153,7 +165,7 @@ UserWindow::UserWindow()
     // set widgets position
     setWidgetsPosition();
 
-    // setting timer for repainting the window
+    // setting timer for widgets' position resetting
     timer = new QTimer();
     timer->setSingleShot(true);
     connect(timer, &QTimer::timeout, this, &UserWindow::slotAlarmTimer);
@@ -163,7 +175,8 @@ UserWindow::UserWindow()
 UserWindow::~UserWindow()
 {
     //save units for next starting of this program
-    trySaveOrLoadXml(this, &UserWindow::writeXml);
+    if (temperatureUnit && atmPressureUnit)
+        trySaveOrLoadXml(this, &UserWindow::writeXml);
 
     // delete proxy buttons
     delete proxyAirDirectionButton;
@@ -217,7 +230,8 @@ void UserWindow::setWidgetsPosition()
                              getElementYLocation(0.5, minusButton));
     proxyTemperatureValueLabel->setPos(getElementXLocation(0.5, temperatureValueLabel),
                                        getElementYLocation(0.5, temperatureValueLabel));
-    proxyTemperatureUnit->setPos(getElementXLocation(0.5, temperatureValueLabel) + temperatureValueLabel->width() + 25,
+    proxyTemperatureUnit->setPos(getElementXLocation(0.5, temperatureValueLabel) +
+                                     temperatureValueLabel->width() + 20,
                                  temperatureValueLabel->y());
     proxyTemperatureLabel->setPos(getElementXLocation(0.5, temperatureLabel),
                                   getElementYLocation(0.5, temperatureLabel) + 40);
@@ -338,6 +352,7 @@ void UserWindow::setLightModeStyle()
     airDirectionButton->setStyleSheet(StyleHelper::lightModeLongButtonStyle());
     temperatureMenu->setStyleSheet(StyleHelper::lightModeMenuStyle());
     atmPressureMenu->setStyleSheet(StyleHelper::lightModeMenuStyle());
+    airflowDirectionMenu->setStyleSheet(StyleHelper::lightModeMenuStyle());
 }
 
 void UserWindow::setDarkModeStyle()
@@ -357,6 +372,7 @@ void UserWindow::setDarkModeStyle()
     airDirectionButton->setStyleSheet(StyleHelper::darkModeLongButtonStyle());
     temperatureMenu->setStyleSheet(StyleHelper::darkModeMenuStyle());
     atmPressureMenu->setStyleSheet(StyleHelper::darkModeMenuStyle());
+    airflowDirectionMenu->setStyleSheet(StyleHelper::darkModeMenuStyle());
 }
 
 void UserWindow::onTemperActionTriggered()
@@ -406,6 +422,15 @@ void UserWindow::onAtmPresTriggered()
     }
 }
 
+void UserWindow::onAirflowDirectionTriggered()
+{
+    if (power)
+    {
+        QAction *action = qobject_cast<QAction*>(QObject::sender());
+        airDirectionButton->setText(action->text());
+    }
+}
+
 void UserWindow::onChangeThemeModeClicked(bool checked)
 {
     themeIsDark = checked;
@@ -433,6 +458,7 @@ void UserWindow::onPowerButtonClicked(bool checked)
         temperatureUnitLabel->setText(*temperatureUnit);
         humidityButton->setText(*defaultValue + "%");
         atmPressureButton->setText(*defaultValue + *atmPressureUnit);
+        airDirectionButton->setText("0°-90°");
     }
     else
     {
@@ -450,6 +476,7 @@ void UserWindow::onPowerButtonClicked(bool checked)
         temperatureButton->setText("");
         humidityButton->setText("");
         atmPressureButton->setText("");
+        airDirectionButton->setText("");
     }
 }
 
