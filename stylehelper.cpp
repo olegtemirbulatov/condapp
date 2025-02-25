@@ -1,6 +1,16 @@
 #include "stylehelper.h"
 
-// light mode
+
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах светлой темы.
+Используется для установки стилей на кнопках:
+- Температуры
+- Влажности
+- Атмосферного давления
+- Включения/выключения системы
+- Управления потоком воздуха
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::lightModeLongButtonStyle()
 {
     return "QPushButton#longButton{" // first row button
@@ -13,6 +23,11 @@ QString StyleHelper::lightModeLongButtonStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах светлой темы.
+Используется для установки стилей на кнопках увеличения и уменьшения температуры.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::lightModeRoundButtonStyle()
 {
     return "QPushButton#roundButton{" // round button
@@ -25,6 +40,11 @@ QString StyleHelper::lightModeRoundButtonStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах светлой темы.
+Используется для установки стилей на кнопке изменения цветовой темы.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::lightModeChangeThemeModeButtonStyle()
 {
     return "QPushButton#colorThemeButton{" // changeThemeModeButton
@@ -37,6 +57,11 @@ QString StyleHelper::lightModeChangeThemeModeButtonStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах светлой темы.
+Используется для установки стиля на метках подписи "температура" и отображения единицы измерения температуры в центре главного окна.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::lightModeTemperLabelStyle()
 {
     return "QLabel#temperatureLabel{" // TemperLabelStyle and units in the center
@@ -47,6 +72,11 @@ QString StyleHelper::lightModeTemperLabelStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах светлой темы.
+Используется для установки стиля на заголовке "Кондиционер" основного окна
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::lightModeMainLabelStyle()
 {
     return "QLabel#mainLabel{" // main label
@@ -58,6 +88,11 @@ QString StyleHelper::lightModeMainLabelStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах светлой темы.
+Используется для установки стиля на метке со значением температуры в центре основного окна.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::lightModeTemperatureValueLabelStyle()
 {
     return "QLabel#temperatureValueLabel{" // temperature value in the center
@@ -68,6 +103,11 @@ QString StyleHelper::lightModeTemperatureValueLabelStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах светлой темы.
+Используется для установки стиля на опциях меню под кнопками температуры, давления и направления воздуха.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::lightModeMenuStyle()
 {
     return "QMenu{" // menu
@@ -78,7 +118,16 @@ QString StyleHelper::lightModeMenuStyle()
            "}";
 }
 
-// dark mode
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах темной темы.
+Используется для установки стилей на кнопках:
+- Температуры
+- Влажности
+- Атмосферного давления
+- Включения/выключения системы
+- Управления потоком воздуха
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::darkModeLongButtonStyle()
 {
     return "QPushButton#longButton{" // first row button
@@ -92,6 +141,11 @@ QString StyleHelper::darkModeLongButtonStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах темной темы.
+Используется для установки стилей на кнопках увеличения и уменьшения температуры.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::darkModeRoundButtonStyle()
 {
     return "QPushButton#roundButton{" // round button
@@ -105,6 +159,11 @@ QString StyleHelper::darkModeRoundButtonStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах темной темы.
+Используется для установки стилей на кнопке изменения цветовой темы.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::darkModeChangeThemeModeButtonStyle()
 {
     return "QPushButton#colorThemeButton{" // changeThemeModeButton
@@ -118,6 +177,11 @@ QString StyleHelper::darkModeChangeThemeModeButtonStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах темной темы.
+Используется для установки стиля на метках подписи "температура" и отображения единицы измерения температуры в центре главного окна.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::darkModeTemperLabelStyle()
 {
     return "QLabel#temperatureLabel{" // TemperLabelStyle and units in the center
@@ -128,6 +192,11 @@ QString StyleHelper::darkModeTemperLabelStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах темной темы.
+Используется для установки стиля на заголовке "Кондиционер" основного окна
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::darkModeMainLabelStyle()
 {
     return "QLabel#mainLabel{" // main label
@@ -139,6 +208,11 @@ QString StyleHelper::darkModeMainLabelStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах темной темы.
+Используется для установки стиля на метке со значением температуры в центре основного окна.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::darkModeTemperatureValueLabelStyle()
 {
     return "QLabel#temperatureValueLabel{" // temperature value in the center
@@ -149,6 +223,11 @@ QString StyleHelper::darkModeTemperatureValueLabelStyle()
            "}";
 }
 
+/*!
+Метод, возвращающий строку в формате StyleSheet для установки стиля в тонах темной темы.
+Используется для установки стиля на опциях меню под кнопками температуры, давления и направления воздуха.
+\return Строка типа QString в формате StyleSheet
+*/
 QString StyleHelper::darkModeMenuStyle()
 {
     return "QMenu{" // menu

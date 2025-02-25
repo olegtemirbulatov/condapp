@@ -7,10 +7,25 @@
 #include <QLineEdit>
 #include <QComboBox>
 
-
+/// Класс дополнительного окна (симулятор входных значений)
+/*!
+    Класс окна, через который можно симулировать входные значения в систему управления кондиционированием.
+*/
 class MeasurementSimulator : public QWidget
 {
     Q_OBJECT
+
+private:
+    QVBoxLayout *mainLayout;        /// Основной макет
+    QGridLayout *gridLayout;        /// Дополнительный макет для размещения меток, полей ввода и comboBox'ов на окне
+    QPushButton *applyButton;       /// Кнопка для отправки показаний в систему
+    QLineEdit *temperatureEdit;     /// Поле для ввода температуры
+    QLineEdit *humidityEdit;        /// Поле для ввода влажности
+    QLineEdit *pressureEdit;        /// Поле для ввода атмосферного давления
+    QComboBox *temperatureUnit;     /// КомбоБокс для выбора единицы измерения температуры
+    QComboBox *atmPressureUnit;     /// КомбоБокс для выбора единицы измерения атмосферного давления
+
+    void applyChanges();
 
 public:
     MeasurementSimulator(QWidget *parent = nullptr);
@@ -18,18 +33,6 @@ public:
 
 public slots:
     void onTemperatureChanged(QPair<double, QString> new_temperature);
-
-private:
-    QVBoxLayout *mainLayout;
-    QGridLayout *gridLayout;
-    QPushButton *applyButton;
-    QLineEdit *temperatureEdit;
-    QLineEdit *humidityEdit;
-    QLineEdit *pressureEdit;
-    QComboBox *temperatureUnit;
-    QComboBox *atmPressureUnit;
-
-    void applyChanges();
 
 signals:
     void temperatureChanged(QPair<double, QString> new_temperature);

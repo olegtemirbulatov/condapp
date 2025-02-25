@@ -6,6 +6,13 @@
 
 #include "measurementsimulator.h"
 
+
+/*!
+Конструктор класса MeasurementSimulator.
+В конструкторе:
+- Определяются кнопки, метки и комбобоксы для выбора единиц измерения
+- Настраивается соединение сигнала нажатия кнопки "Применить" со слотом applyChanges
+*/
 MeasurementSimulator::MeasurementSimulator(QWidget *parent)
     : QWidget{parent}
 {
@@ -50,6 +57,10 @@ MeasurementSimulator::MeasurementSimulator(QWidget *parent)
     resize(300, 200);
 }
 
+/*!
+Слот для отправки симулированных значений на вход системы кондиционирования.
+Вызывает сигналы temperatureChanged, humidityChanged, atmPressureChanged с передаваемыми значениями.
+*/
 void MeasurementSimulator::applyChanges()
 {
     QPair<double, QString> temperature = qMakePair(temperatureEdit->text().toDouble(),
@@ -62,6 +73,10 @@ void MeasurementSimulator::applyChanges()
     emit atmPressureChanged(atmPressure);
 }
 
+/*!
+Слот для изменения температуры в окне MeasurementSimulator'а.
+\param[in] new_temperature Значение температуры, которое было настроено на основном окне
+*/
 void MeasurementSimulator::onTemperatureChanged(QPair<double, QString> new_temperature)
 {
     temperatureEdit->setText(QString::number(RecountHelper::recountTemperature(new_temperature, temperatureUnit->currentText())));

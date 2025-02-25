@@ -3,6 +3,12 @@
 #include "recounthelper.h"
 
 
+/*!
+Метод для пересчета температуры из одной единицы измерения в другую.
+\param[in] new_temperature Пара нового значения и единицы измерения температуры
+\param[in] current_unit Текущая единица измерения температуры
+\return Пересчитанное значение температуры
+*/
 double RecountHelper::recountTemperature(const QPair<double, QString> &new_temperature, const QString &current_unit)
 {
     if (current_unit != new_temperature.second)
@@ -33,6 +39,12 @@ double RecountHelper::recountTemperature(const QPair<double, QString> &new_tempe
     return new_temperature.first;
 }
 
+/*!
+Метод для пересчета атмосферного давления из одной единицы измерения в другую.
+\param[in] new_temperature Пара нового значения и единицы измерения атмосферного давления
+\param[in] current_unit Текущая единица измерения атмосферного давления
+\return Пересчитанное значение атмосферного давления
+*/
 double RecountHelper::recountAtmPressure(const QPair<double, QString> &new_atmPressure, const QString &current_unit)
 {
     if (current_unit != new_atmPressure.second)
@@ -50,6 +62,11 @@ double RecountHelper::recountAtmPressure(const QPair<double, QString> &new_atmPr
     return new_atmPressure.first;
 }
 
+/*!
+Метод для округления числа до 1 значения после запятой.
+\param[in] value Число, которое нужно округлить
+\return Число, округленное до 1 знака после запятой
+*/
 double RecountHelper::roundToOneDecimal(const double &value)
 {
     double result_value = value * 10;

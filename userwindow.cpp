@@ -15,6 +15,11 @@
 
 typedef void (UserWindow::*UserWindowMethod)();
 
+/*!
+Делает попытку вызова метода для загрузки или сохранения единиц измерения температуры и давления
+\param[in] window Указатель на основное окно, которое содержит вызываемый метод
+\param[in] method Вызываемый метод
+*/
 void trySaveOrLoadXml(UserWindow* window, UserWindowMethod method)
 {
     try
@@ -38,7 +43,18 @@ void trySaveOrLoadXml(UserWindow* window, UserWindowMethod method)
     }
 }
 
-
+/*!
+Конструктор класса UserWindow.
+В конструкторе:
+- Настраиваются параметры окна и сцены
+- Выделяется память для хранения единиц измерений и значений давления и температуры
+- Определяются кнопки, метки, меню, действия меню (actions)
+- Настраиваются стили (по умолчанию светлая тема)
+- Настраиваются соединения сигналов кнопок и действий меню со слотами
+- Добавляются все виджеты в сцену
+- Настраивается положение виджетов
+- Настраивается таймер для переотрисовки сцены (заметно при изменении размеров окна)
+*/
 UserWindow::UserWindow()
 {
     // settings of the window
@@ -178,6 +194,10 @@ UserWindow::UserWindow()
     timer->start(50);
 }
 
+/*!
+Деструктор класса UserWindow.
+Удаляются все поля UserWindow, которые не имеют родителей (в смысле дерева объектов Qt)
+*/
 UserWindow::~UserWindow()
 {
     //save units for next starting of this program
@@ -209,12 +229,19 @@ UserWindow::~UserWindow()
     delete defaultValue;
 }
 
+/*!
+Слот, обрататывающий сигнал срабатывания таймера.
+Вызывает метод setWidgetsPosition для переотрисовки виджетов под текущий размер окна.
+*/
 void UserWindow::slotAlarmTimer()
 {
     scene->setSceneRect(0, 0, this->width(), this->height());
     setWidgetsPosition();
 }
 
+/*!
+Метод, настраивающий положение виджетов на сцене.
+*/
 void UserWindow::setWidgetsPosition()
 {
     // label
@@ -251,6 +278,10 @@ void UserWindow::setWidgetsPosition()
                                     getElementYLocation(0.75, airDirectionButton));
 }
 
+/*!
+Метод, считывающий сохраненные единицы измерения из xml-файла.
+\throw std::runtime_error В случае возникновения ошибки при открытии xml-файла.
+*/
 void UserWindow::readXml()
 {
     QString filePath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/units.xml";
@@ -291,6 +322,10 @@ void UserWindow::readXml()
     file.close();
 }
 
+/*!
+Метод, сохраняющий единицы измерения в xml-файл.
+\throw std::runtime_error В случае возникновения ошибки при открытии xml-файла.
+*/
 void UserWindow::writeXml()
 {
     QString filePath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
@@ -325,22 +360,41 @@ void UserWindow::writeXml()
     file.close();
 }
 
+/*!
+Метод, возвращающий значение координаты по горизонтали
+\param[in] xshift Сдвиг по горизонтали относительно ширины окна
+\param[in] element Указатель на виджет, координату которого нужно вычислить
+\return Значение координаты виджета
+*/
 double UserWindow::getElementXLocation(double xshift, QWidget *element) const
 {
     return (this->scene->width() * xshift - (element->width() / 2));
 }
 
+/*!
+Метод, возвращающий значение координаты по вертикали
+\param[in] xshift Сдвиг по горизонтали относительно высоты окна
+\param[in] element Указатель на виджет, координату которого нужно вычислить
+\return Значение координаты виджета
+*/
 double UserWindow::getElementYLocation(double yshift, QWidget *element) const
 {
     return (this->scene->height() * yshift - (element->height() / 2));
 }
 
+/*!
+Метод для вызова события изменения размера
+\param[in] event Событие изменения размера
+*/
 void UserWindow::resizeEvent(QResizeEvent* event)
 {
     timer->start(50);
     QGraphicsView::resizeEvent(event);
 }
 
+/*!
+Метод для установки светлой темы. Настраиваются стили для каждого виджета.
+*/
 void UserWindow::setLightModeStyle()
 {
     scene->setBackgroundBrush(QBrush(QColor().fromRgb(255, 255, 255, 255)));
@@ -361,6 +415,9 @@ void UserWindow::setLightModeStyle()
     airflowDirectionMenu->setStyleSheet(StyleHelper::lightModeMenuStyle());
 }
 
+/*!
+Метод для установки темной темы. Настраиваются стили для каждого виджета.
+*/
 void UserWindow::setDarkModeStyle()
 {
     scene->setBackgroundBrush(QBrush(QColor().fromRgb(51, 51, 51, 255)));
@@ -381,6 +438,10 @@ void UserWindow::setDarkModeStyle()
     airflowDirectionMenu->setStyleSheet(StyleHelper::darkModeMenuStyle());
 }
 
+/*!
+Слот для обработки изменения единицы измерения температуры пользователем.
+Пересчитывает текущее значение температуры и отображает новую единицу измерения на GUI
+*/
 void UserWindow::onTemperActionTriggered()
 {
     if (power)
@@ -406,6 +467,10 @@ void UserWindow::onTemperActionTriggered()
     }
 }
 
+/*!
+Слот для обработки изменения единицы измерения атмосферного давления пользователем.
+Пересчитывает текущее значение давления и отображает новую единицу измерения на GUI
+*/
 void UserWindow::onAtmPresTriggered()
 {
     if (power)
@@ -428,6 +493,10 @@ void UserWindow::onAtmPresTriggered()
     }
 }
 
+/*!
+Слот для обработки изменения направления воздушного потока.
+Устанавливает отображение нового диапазона обдува на кнопке.
+*/
 void UserWindow::onAirflowDirectionTriggered()
 {
     if (power)
@@ -437,6 +506,9 @@ void UserWindow::onAirflowDirectionTriggered()
     }
 }
 
+/*!
+Слот для обработки нажатия кнопки для изменения цветовой темы.
+*/
 void UserWindow::onChangeThemeModeClicked(bool checked)
 {
     themeIsDark = checked;
@@ -453,6 +525,9 @@ void UserWindow::onChangeThemeModeClicked(bool checked)
     changeThemeMode->setIconSize(QSize(32, 32));
 }
 
+/*!
+Слот для обработки нажатия кнопки включения/выключения системы.
+*/
 void UserWindow::onPowerButtonClicked(bool checked)
 {
     power = checked;
@@ -486,6 +561,9 @@ void UserWindow::onPowerButtonClicked(bool checked)
     }
 }
 
+/*!
+Слот для обработки изменения температуры из симулятора входных показаний.
+*/
 void UserWindow::onTemperatureChanged(QPair<double, QString> new_temperature)
 {
     if (power)
@@ -501,6 +579,9 @@ void UserWindow::onTemperatureChanged(QPair<double, QString> new_temperature)
     }
 }
 
+/*!
+Слот для обработки изменения влажности воздуха из симулятора входных показаний.
+*/
 void UserWindow::onHumidityChanged(const double new_humidity)
 {
     if (power)
@@ -511,6 +592,9 @@ void UserWindow::onHumidityChanged(const double new_humidity)
     }
 }
 
+/*!
+Слот для обработки изменения атмосферного давления из симулятора входных показаний.
+*/
 void UserWindow::onAtmPressureChanged(QPair<double, QString> new_atmPressure)
 {
     if (power)
@@ -524,6 +608,9 @@ void UserWindow::onAtmPressureChanged(QPair<double, QString> new_atmPressure)
     }
 }
 
+/*!
+Слот для обработки настройки температуры со стороны пользователя. Вызывается, когда нажимаются кнопки + и - на основном окне.
+*/
 void UserWindow::onPlusMinusButtonClicked()
 {
     if (power && temperatureValue)

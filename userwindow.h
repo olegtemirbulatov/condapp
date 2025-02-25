@@ -11,7 +11,10 @@
 #include <QTimer>
 #include <QString>
 
-
+/// Класс основного окна
+/*!
+    Класс окна, через который пользователь взаимодействует с программой для настройки системы кондиционирования
+*/
 class UserWindow : public QGraphicsView
 {
     Q_OBJECT
@@ -21,48 +24,47 @@ public:
     ~UserWindow();
 
 private:
-    QGraphicsScene *scene;
-    QPushButton *plusButton;
-    QPushButton *minusButton;
-    QPushButton *powerButton;
-    QPushButton *airDirectionButton;
-    QPushButton *temperatureButton;
-    QPushButton *humidityButton;
-    QPushButton *atmPressureButton;
-    QPushButton *changeThemeMode;
-    QMenu *temperatureMenu;
-    QMenu *atmPressureMenu;
-    QMenu *airflowDirectionMenu;
-    QLabel *temperatureValueLabel;
-    QLabel *temperatureUnitLabel;
-    QLabel *temperatureLabel;
-    QLabel *atmPressureValueLabel;
-    QLabel *systemLabel;
+    QGraphicsScene *scene;              /// Сцена, в которой содержатся основные элементы интерфейса
+    QPushButton *plusButton;            /// Кнопка, регулирующая температуру. Прибавляет температуру на 0.1 <ед. изм.>
+    QPushButton *minusButton;           /// Кнопка, регулирующая температуру. Убавляет температуру на 0.1 <ед. изм.>
+    QPushButton *powerButton;           /// Кнопка включения/выключения системы
+    QPushButton *airDirectionButton;    /// Кнопка для настройки управления потоком воздуха
+    QPushButton *temperatureButton;     /// Кнопка для настройки единиц измерения температуры. Также отображает текущее значение температуры
+    QPushButton *humidityButton;        /// Отображение значения влажности. Сделана в виде кнопки для единообразия интерфейса. Никакой функции при нажатии не выполняет
+    QPushButton *atmPressureButton;     /// Кнопка для настройки единиц измерения атмосферного давления. Также отображает текущее значение давления
+    QPushButton *changeThemeMode;       /// Кнопка для переключения темы (светлая/темная)
+    QMenu *temperatureMenu;             /// Меню для выбора единиц измерения температуры
+    QMenu *atmPressureMenu;             /// Меню для выбора единиц измерения атмосферного давления
+    QMenu *airflowDirectionMenu;        /// Меню для выбора направления воздуха
+    QLabel *temperatureValueLabel;      /// Метка со значением температуры
+    QLabel *temperatureUnitLabel;       /// Метка со значением единицы измерения температуры
+    QLabel *temperatureLabel;           /// Метка "температура"
+    QLabel *systemLabel;                /// Название системы "Кондиционер"
 
-    QString *defaultValue;
+    QString *defaultValue;              /// Пустое значение. Нужно для отображения включенного состояния системы, которая готова принимать значения из окна, симулирующего входные значения
 
-    double *temperatureValue = nullptr;
-    double *atmPressureValue = nullptr;
-    QString *temperatureUnit;
-    QString *atmPressureUnit;
+    double *temperatureValue = nullptr; /// Значение температуры
+    double *atmPressureValue = nullptr; /// Значение атмосферного давления
+    QString *temperatureUnit;           /// Текущая единица измерения температуры
+    QString *atmPressureUnit;           /// Текущая единица измерения атмосферного давления
 
-    QGraphicsProxyWidget *proxyTemperatureButton;
-    QGraphicsProxyWidget *proxyHumidityButton;
-    QGraphicsProxyWidget *proxyAtmPressureButton;
-    QGraphicsProxyWidget *proxyPlusButton;
-    QGraphicsProxyWidget *proxyTemperatureValueLabel;
-    QGraphicsProxyWidget *proxyTemperatureUnit;
-    QGraphicsProxyWidget *proxyTemperatureLabel;
-    QGraphicsProxyWidget *proxyMinusButton;
-    QGraphicsProxyWidget *proxyPowerButton;
-    QGraphicsProxyWidget *proxyAirDirectionButton;
-    QGraphicsProxyWidget *proxySystemLabel;
-    QGraphicsProxyWidget *proxyChangeThemeMode;
+    QGraphicsProxyWidget *proxyTemperatureButton;       /// Прокси кнопка для добавления в scene
+    QGraphicsProxyWidget *proxyHumidityButton;          /// Прокси кнопка для добавления в scene
+    QGraphicsProxyWidget *proxyAtmPressureButton;       /// Прокси кнопка для добавления в scene
+    QGraphicsProxyWidget *proxyPlusButton;              /// Прокси кнопка для добавления в scene
+    QGraphicsProxyWidget *proxyTemperatureValueLabel;   /// Прокси метка для добавления в scene
+    QGraphicsProxyWidget *proxyTemperatureUnit;         /// Прокси метка для добавления в scene
+    QGraphicsProxyWidget *proxyTemperatureLabel;        /// Прокси метка для добавления в scene
+    QGraphicsProxyWidget *proxyMinusButton;             /// Прокси кнопка для добавления в scene
+    QGraphicsProxyWidget *proxyPowerButton;             /// Прокси кнопка для добавления в scene
+    QGraphicsProxyWidget *proxyAirDirectionButton;      /// Прокси кнопка для добавления в scene
+    QGraphicsProxyWidget *proxySystemLabel;             /// Прокси метка для добавления в scene
+    QGraphicsProxyWidget *proxyChangeThemeMode;         /// Прокси кнопка для добавления в scene
 
-    QTimer *timer;
+    QTimer *timer;              /// Таймер для переотрисовки сцены. Срабатывает каждые 50 мс
 
-    bool power = false;
-    bool themeIsDark = false;
+    bool power = false;         /// Состояние системы (true = включена, false = выключена)
+    bool themeIsDark = false;   /// Текущая цветовая тема системы (false = светлая, true = темная)
 
     void resizeEvent(QResizeEvent* event) override;
     void setWidgetsPosition();
