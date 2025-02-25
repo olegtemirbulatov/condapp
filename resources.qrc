@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/icon_atmospheric.png</file>
+        <file>icons/icon_conditioner.png</file>
+        <file>icons/icon_dark.png</file>
+        <file>icons/icon_humidity.png</file>
+        <file>icons/icon_light.png</file>
+        <file>icons/icon_power_button.png</file>
+        <file>icons/icon_temperature.png</file>
+        <file>units_template.xml</file>
+    </qresource>
+</RCC>
