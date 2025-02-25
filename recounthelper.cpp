@@ -1,6 +1,7 @@
+#include <cmath>
+
 #include "recounthelper.h"
 
-#include <cmath>
 
 double RecountHelper::recountTemperature(const QPair<double, QString> &new_temperature, const QString &current_unit)
 {

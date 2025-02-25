@@ -9,16 +9,7 @@
 #include <QLabel>
 #include <QResizeEvent>
 #include <QTimer>
-#include <QVector>
 #include <QString>
-#include <QFile>
-#include <QXmlStreamWriter>
-#include <QXmlStreamReader>
-#include <QStandardPaths>
-#include <exception>
-
-#include "recounthelper.h"
-#include "stylehelper.h"
 
 
 class UserWindow : public QGraphicsView

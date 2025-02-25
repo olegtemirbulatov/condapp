@@ -2,15 +2,11 @@
 #define MEASUREMENTSIMULATOR_H
 
 #include <QWidget>
-
-#include <QWidget>
 #include <QVBoxLayout>
-#include <QFormLayout>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QComboBox>
 
-#include "recounthelper.h"
 
 class MeasurementSimulator : public QWidget
 {

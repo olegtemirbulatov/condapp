@@ -1,6 +1,8 @@
 #include <QLabel>
 #include <QString>
 #include <QPair>
+#include <QFormLayout>
+#include "recounthelper.h"
 
 #include "measurementsimulator.h"
 

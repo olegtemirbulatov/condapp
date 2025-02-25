@@ -1,11 +1,17 @@
+#include <exception>
+#include <QFile>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include <QStandardPaths>
 #include <QAction>
 #include <QMenu>
-#include <QFile>
-#include <QTextStream>
 #include <QDir>
 #include <QMessageBox>
+#include "recounthelper.h"
+#include "stylehelper.h"
 
 #include "userwindow.h"
+
 
 typedef void (UserWindow::*UserWindowMethod)();
 
