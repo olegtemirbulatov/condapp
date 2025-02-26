@@ -196,7 +196,7 @@ UserWindow::UserWindow()
 
 /*!
 Деструктор класса UserWindow.
-Удаляются все поля UserWindow, которые не имеют родителей (в смысле дерева объектов Qt)
+Удаляются все поля UserWindow, которые не имеют родителей-объектов QWidget
 */
 UserWindow::~UserWindow()
 {
@@ -362,22 +362,22 @@ void UserWindow::writeXml()
 
 /*!
 Метод, возвращающий значение координаты по горизонтали
-\param[in] xshift Сдвиг по горизонтали относительно ширины окна
+\param[in] xshift Сдвиг по горизонтали. Умножается на ширину окна.
 \param[in] element Указатель на виджет, координату которого нужно вычислить
-\return Значение координаты виджета
+\return Значение координаты виджета по горизонтали
 */
-double UserWindow::getElementXLocation(double xshift, QWidget *element) const
+double UserWindow::getElementXLocation(const double &xshift, const QWidget *element) const
 {
     return (this->scene->width() * xshift - (element->width() / 2));
 }
 
 /*!
 Метод, возвращающий значение координаты по вертикали
-\param[in] xshift Сдвиг по горизонтали относительно высоты окна
+\param[in] xshift Сдвиг по горизонтали. Умножается на высоту окна.
 \param[in] element Указатель на виджет, координату которого нужно вычислить
-\return Значение координаты виджета
+\return Значение координаты виджета по вертикали
 */
-double UserWindow::getElementYLocation(double yshift, QWidget *element) const
+double UserWindow::getElementYLocation(const double &yshift, const QWidget *element) const
 {
     return (this->scene->height() * yshift - (element->height() / 2));
 }
@@ -508,6 +508,7 @@ void UserWindow::onAirflowDirectionTriggered()
 
 /*!
 Слот для обработки нажатия кнопки для изменения цветовой темы.
+\param[in] checked Флаг нажатия кнопки
 */
 void UserWindow::onChangeThemeModeClicked(bool checked)
 {
@@ -527,6 +528,7 @@ void UserWindow::onChangeThemeModeClicked(bool checked)
 
 /*!
 Слот для обработки нажатия кнопки включения/выключения системы.
+\param[in] checked Флаг нажатия кнопки
 */
 void UserWindow::onPowerButtonClicked(bool checked)
 {
@@ -563,8 +565,9 @@ void UserWindow::onPowerButtonClicked(bool checked)
 
 /*!
 Слот для обработки изменения температуры из симулятора входных показаний.
+\param[in] new_temperature Пара значения и единицы измерения температуры, которые поступили в систему.
 */
-void UserWindow::onTemperatureChanged(QPair<double, QString> new_temperature)
+void UserWindow::onTemperatureChanged(const QPair<double, QString> &new_temperature)
 {
     if (power)
     {
@@ -581,8 +584,9 @@ void UserWindow::onTemperatureChanged(QPair<double, QString> new_temperature)
 
 /*!
 Слот для обработки изменения влажности воздуха из симулятора входных показаний.
+\param[in] new_humidity Значение влажности, которое поступило в систему.
 */
-void UserWindow::onHumidityChanged(const double new_humidity)
+void UserWindow::onHumidityChanged(const double &new_humidity)
 {
     if (power)
     {
@@ -594,8 +598,9 @@ void UserWindow::onHumidityChanged(const double new_humidity)
 
 /*!
 Слот для обработки изменения атмосферного давления из симулятора входных показаний.
+\param[in] new_atmPressure Пара значения и единицы измерения атмосферного давления, которые поступили в систему.
 */
-void UserWindow::onAtmPressureChanged(QPair<double, QString> new_atmPressure)
+void UserWindow::onAtmPressureChanged(const QPair<double, QString> &new_atmPressure)
 {
     if (power)
     {

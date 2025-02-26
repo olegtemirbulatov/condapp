@@ -32,12 +32,12 @@ public:
     ~MeasurementSimulator() = default;
 
 public slots:
-    void onTemperatureChanged(QPair<double, QString> new_temperature);
+    void onTemperatureChanged(const QPair<double, QString> &new_temperature);
 
 signals:
-    void temperatureChanged(QPair<double, QString> new_temperature);
-    void humidityChanged(double new_humidity);
-    void atmPressureChanged(QPair<double, QString> new_atmPressure);
+    void temperatureChanged(const QPair<double, QString> &new_temperature);
+    void humidityChanged(const double &new_humidity);
+    void atmPressureChanged(const QPair<double, QString> &new_atmPressure);
 };
 
 #endif // MEASUREMENTSIMULATOR_H

@@ -72,13 +72,13 @@ private:
     void setDarkModeStyle();
     void readXml();
     void writeXml();
-    double getElementXLocation(double xshift, QWidget *element) const;
-    double getElementYLocation(double yshift, QWidget *element) const;
+    double getElementXLocation(const double &xshift, const QWidget *element) const;
+    double getElementYLocation(const double &yshift, const QWidget *element) const;
 
 public slots:
-    void onTemperatureChanged(const QPair<double, QString> new_temperature);
-    void onHumidityChanged(const double new_humidity);
-    void onAtmPressureChanged(const QPair<double, QString> new_atmPressure);
+    void onTemperatureChanged(const QPair<double, QString> &new_temperature);
+    void onHumidityChanged(const double &new_humidity);
+    void onAtmPressureChanged(const QPair<double, QString> &new_atmPressure);
 
 private slots:
     void slotAlarmTimer();
@@ -90,7 +90,7 @@ private slots:
     void onPlusMinusButtonClicked();
 
 signals:
-    void temperatureChanged(QPair<double, QString> new_temperature);
+    void temperatureChanged(const QPair<double, QString> &new_temperature);
 
 };
 

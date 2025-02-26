@@ -77,7 +77,7 @@ void MeasurementSimulator::applyChanges()
 Слот для изменения температуры в окне MeasurementSimulator'а.
 \param[in] new_temperature Значение температуры, которое было настроено на основном окне
 */
-void MeasurementSimulator::onTemperatureChanged(QPair<double, QString> new_temperature)
+void MeasurementSimulator::onTemperatureChanged(const QPair<double, QString> &new_temperature)
 {
     temperatureEdit->setText(QString::number(RecountHelper::recountTemperature(new_temperature, temperatureUnit->currentText())));
 }
